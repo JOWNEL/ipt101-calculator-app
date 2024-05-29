@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CALCULATOR LOGIC WITH JAVASCRIPT</title>
+    <style>
+        body {
+            background-color: tan;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 90%;
+            max-width: 400px;
+            margin: 0 auto;
+            border-radius: 2%;
+        }
+
+        #result {
+            width: 90%;
+            height: 75px;
+            padding: 20px;
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: right;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+
+        td {
+            padding: 5px;
+        }
+
+        .num1-btn {
+            width: 100%;
+            color: rgb(0, 0, 0);
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 50px;
+            background-color: rgb(255, 195, 139);
+            border-radius: 10px;
+            border: 1px solid rgb(0, 0, 0);
+            box-sizing: border-box;
+            cursor: pointer;
+            
+        }
+        .num-btn {
+            width: 100%;
+            color: rgb(0, 0, 0);
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 50px;
+            background-color: rgb(255, 195, 139);
+            border-radius: 10px;
+            border: 1px solid rgb(0, 0, 0);
+            box-sizing: border-box;
+            cursor: pointer;
+            
+        }
+        .num-btn:hover {
+            background-color: rgb(243, 132, 80);
+            transform: scale(1.05);
+        }
+        .num1-btn:hover {
+            background-color: rgb(243, 132, 80);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 600px) {
+            .num-btn {
+                font-size: 1.2rem;
+                padding: 15px;
+            }
+            .num1-btn {
+                font-size: 1.2rem;
+                padding: 15px;
+            }
+
+            #result {
+                height: 50px;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 style="font-family: cursive;">CALCULATOR APP</h1>
+    <table style="background-color:sienna;">
+        <tr>
+            <td colspan="4"><input type="text" id="result" readonly></td>
+            <td><input type="button" value="C" onclick="clearInput()" class="num1-btn"></td>
+            <td><input type="button" value="DEL" onclick="deleteLast()" class="num1-btn"></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="1" onclick="appendNumber(1)" class="num-btn"></td>
+            <td ><input type="button" value="2" onclick="appendNumber(2)" class="num-btn"></td>
+            <td><input type="button" value="3" onclick="appendNumber(3)" class="num-btn"></td>
+            <td colspan="3"><input type="button" value="/" onclick="divide()" class="num-btn"></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="4" onclick="appendNumber(4)" class="num-btn"></td>
+            <td><input type="button" value="5" onclick="appendNumber(5)" class="num-btn"></td>
+            <td><input type="button" value="6" onclick="appendNumber(6)" class="num-btn"></td>
+            <td colspan="3"><input type="button" value="*" onclick="multiply()" class="num-btn"></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="7" onclick="appendNumber(7)" class="num-btn"></td>
+            <td><input type="button" value="8" onclick="appendNumber(8)" class="num-btn"></td>
+            <td><input type="button" value="9" onclick="appendNumber(9)" class="num-btn"></td>
+            <td colspan="3"><input type="button" value="-" onclick="minus()" class="num-btn"></td>
+        </tr>
+        <tr>
+            <td><input type="button" value="." onclick="decimal()" class="num-btn"></td>
+            <td><input type="button" value="0" onclick="appendNumber(0)" class="num-btn"></td>
+            <td><input type="button" value="+" onclick="add()" class="num-btn"></td>
+            <td colspan="3"><input type="button" value="=" onclick="equals()" class="num-btn"></td>
+        </tr>
+    </table>
+
+    <script>
+        let currentInput = '';
+        let currentOperator = '';
+
+        function appendNumber(number) {
+            currentInput += number;
+            document.getElementById('result').value = currentInput;
+        }
+
+        function add() {
+    if (currentInput !== '') { 
+        const lastChar = currentInput[currentInput.length - 1];
+        if (!isOperator(lastChar)) {
+            currentOperator = "+";
+            currentInput += currentOperator;
+            document.getElementById('result').value = currentInput;
+        } else {
+            currentInput = currentInput.slice(0, -1) + "+"; 
+            document.getElementById('result').value = currentInput;
+        }
+    }
+        }
+
+        function divide() {
+            if (currentInput !== '') { 
+                const lastChar = currentInput[currentInput.length - 1];
+                if (!isOperator(lastChar)) {
+                    currentOperator = "/";
+                    currentInput += currentOperator;
+                    document.getElementById('result').value = currentInput;
+                } else {
+                    currentInput = currentInput.slice(0, -1) + "/"; 
+                    document.getElementById('result').value = currentInput;
+                }
+            }
+        }
+
+        function minus() {
+            if (currentInput !== '') { 
+                const lastChar = currentInput[currentInput.length - 1];
+                if (!isOperator(lastChar)) {
+                    currentOperator = "-";
+                    currentInput += currentOperator;
+                    document.getElementById('result').value = currentInput;
+                } else {
+                    currentInput = currentInput.slice(0, -1) + "-";
+                    document.getElementById('result').value = currentInput;
+                }
+            }
+        }
+
+        function multiply() {
+            if (currentInput !== '') { 
+                const lastChar = currentInput[currentInput.length - 1];
+                if (!isOperator(lastChar)) {
+                    currentOperator = "*";
+                    currentInput += currentOperator;
+                    document.getElementById('result').value = currentInput;
+                } else {
+                    currentInput = currentInput.slice(0, -1) + "*"; 
+                    document.getElementById('result').value = currentInput;
+                }
+            }
+        }
+
+        function decimal() {
+            const lastChar = currentInput[currentInput.length - 1];
+            if (!isOperator(lastChar) && !currentInput.includes('.')) {
+                currentInput += '.';
+                document.getElementById('result').value = currentInput;
+            }
+        }
+
+        function equals() {
+            const lastChar = currentInput[currentInput.length - 1];
+            if (!isOperator(lastChar)) {
+                const result = eval(currentInput);
+                document.getElementById('result').value = result;
+                currentInput = result.toString();
+                currentOperator = '';
+            }
+        }
+
+        
+        function isOperator(char) {
+            return char === '+' || char === '-' || char === '*' || char === '/';
+        }
+
+
+        function deleteLast() {
+            currentInput = currentInput.slice(0, -1);
+            document.getElementById('result').value = currentInput;
+        }
+        function clearInput() {
+            currentInput = '';
+            currentOperator = '';
+            document.getElementById('result').value = '';
+        }
+
+    </script>
+</body>
+</html>
